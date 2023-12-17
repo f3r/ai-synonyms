@@ -5,15 +5,15 @@ import { getSynonyms } from './services/openAIService'
 import './App.css'
 
 function App() {
-  const [ query, setQuery ] = useState('')
-  const [ results, setResults ] = useState([])
+  const [word, setWord] = useState('')
+  const [results, setResults] = useState([])
 
   const handleChange = (e) => {
-    setQuery(e.target.value)
+    setWord(e.target.value)
   }
 
   const handleClick = async () => {
-    const { message } = await getSynonyms(query)
+    const { message } = await getSynonyms(word)
     const json = JSON.parse(message.content)
     const synonyms = json.synonyms
     setResults(synonyms)
@@ -22,26 +22,22 @@ function App() {
   const displayResults = () => {
     return results.map((result, idx) => {
       return (
-        <h3 key={ idx }>
-          { result }
-        </h3>
+        <div className='card' key={idx}>
+          {result}
+        </div>
       )
     })
   }
   return (
     <>
-    <h2>
-      Find Synonyms:
-    </h2>
-    <input type="text" onChange={handleChange}/>
-    <section className="actions">
-      <button onClick={handleClick}>
-        Search!
-      </button>
-    </section>
-    <section className="results">
-      { displayResults() }
-    </section>
+      <h1>AI Synonym Finder</h1>
+
+      <input type="text" onChange={handleChange} />
+      <button onClick={handleClick}> Search! </button>
+
+      <section className="results">
+        {displayResults()}
+      </section>
     </>
   )
 }

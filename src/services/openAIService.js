@@ -1,12 +1,12 @@
-import app from './config'
+import axios from 'axios'
 
-export const getSynonyms = async (query) => {
-  try {
-    const { data } = await app.post(`/synonyms`, {
-      text: query
-    })
-    return data
-  } catch (error) {
-    console.error(error)
-  }
+const app = axios.create({
+  baseURL: 'http://localhost:3000/api'
+})
+
+export const getSynonyms = async (word) => {
+  const { data } = await app.post(`/synonyms`, {
+    text: word
+  })
+  return data
 }
